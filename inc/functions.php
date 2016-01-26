@@ -31,7 +31,7 @@ function sec_session_start() {
 function login($usuario, $password, $conexion) {
 // Usar consultas preparadas previene de los ataques SQL injection. 
     if ($stmt = $conexion->prepare("SELECT id, usuario, password 
-        FROM clientes
+        FROM users
         WHERE usuario = ?
         LIMIT 1")) {
         $stmt->bind_param('s', $usuario);
@@ -110,7 +110,7 @@ function login_check($conexion) {
 // Obtener el user-agent string.
         $user_browser = $_SERVER['HTTP_USER_AGENT'];
         if ($stmt = $conexion->prepare("SELECT password 
-                                      FROM clientes 
+                                      FROM users 
                                       WHERE id = ? LIMIT 1")) {
             $stmt->bind_param('i', $id);
             $stmt->execute();
