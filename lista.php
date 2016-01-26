@@ -35,7 +35,7 @@
                 echo "<td>$Asignatura</td>";
                 echo "<td>";
 // Este enlace es para modificar el registro
-                echo "<a href='index.php?accion=hacer&id={$ExamenId}'>Realizar examen</a>";
+                echo "<a href='index.php?accion=prehacer&id={$ExamenId}'>Realizar examen</a>";
                 echo " / ";
 // Este enlace es para borrar el registro y también se explicará más tarde
 //                echo "<a href='javascript:borra_cliente(\"$id\")'> Elimina </a>";
