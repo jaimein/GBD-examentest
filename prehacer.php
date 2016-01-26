@@ -28,6 +28,7 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
     $stmt->execute();
     $stmt->bind_result($intentosMax, $intentos);
     
+    
     // recuperamos la variable
     $stmt->fetch();
     if(isset($intentos)){
