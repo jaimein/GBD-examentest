@@ -235,11 +235,11 @@ ALTER TABLE `preguntas`
 -- Filtros para la tabla `seleciones`
 --
 ALTER TABLE `seleciones`
-  ADD CONSTRAINT `fk_seleciones_users1` FOREIGN KEY (`users_id`) REFERENCES `mydb`.`users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_seleciones_intentos1` FOREIGN KEY (`intentos_id`) REFERENCES `mydb`.`intentos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_seleciones_examen1` FOREIGN KEY (`examen_id`) REFERENCES `mydb`.`examen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_seleciones_preguntas1` FOREIGN KEY (`preguntas_id`) REFERENCES `mydb`.`preguntas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_seleciones_opciones1` FOREIGN KEY (`opciones_id`) REFERENCES `mydb`.`opciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_seleciones_users1` FOREIGN KEY (`users_id`) REFERENCES `GBD-examentest`.`users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_seleciones_intentos1` FOREIGN KEY (`intentos_id`) REFERENCES `GBD-examentest`.`intentos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_seleciones_examen1` FOREIGN KEY (`examen_id`) REFERENCES `GBD-examentest`.`examen` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_seleciones_preguntas1` FOREIGN KEY (`preguntas_id`) REFERENCES `GBD-examentest`.`preguntas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_seleciones_opciones1` FOREIGN KEY (`opciones_id`) REFERENCES `GBD-examentest`.`opciones` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `users`
