@@ -2,70 +2,43 @@
 <?php
 // coger el parámetro que nos permitirá identificar el registro
 // isset() es una función PHP usado para verificar si una variable tiene valor o no
-$id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrado.');
+$ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrado.');
 
 //include 'conexion.php';
-
-if ($_POST) {
-// escribir en la tabla cliente
-    $query = "SELECT intentosMax "
-            . "FROM examen "
-            . "WHERE id=? ";
+//SELECT i.intentos, e.intentosMax FROM examen e, intentos i WHERE i.examen_id=e.id and e.id=1
+// solicitar intentos en la tabla cliente
+    $query = "SELECT e.intentosMax, i.intentos "
+            . "FROM examen e LEFT JOIN intentos i "
+            . "ON i.examen_id = e.id "
+            . "where e.id=? ";
+    //echo $query;
+    //echo $ExamenId;
+    //echo "Parte 1";
     $stmt = $conexion->prepare($query);
+    
+    //echo $query;
+    //echo $ExamenId;
+    //echo "Parte 2";
+    
     $stmt->bind_param('i', $ExamenId);
-}
+    //echo $ExamenId;
+    //echo $query;
+    //echo "Parte 3";
     // ejecutamos la consulta
     $stmt->execute();
-    $stmt->bind_result($intentosMax);
+    $stmt->bind_result($intentosMax, $intentos);
+    
     // recuperamos la variable
     $stmt->fetch();
+    if(isset($intentos)){
+        $intento=$intentos;
+    } else {
+        $intento="0";
+    }
+        
+    echo "Ha usado ".$intento." de ".$intentosMax." intentos maximos.</br>";
+
+    echo "<a href='index.php?accion=lista'>Atras</a>";
+    echo "<a href='index.php?accion=hacer&id={$ExamenId}'>Realizar examen</a>";
 
 ?>
-<form action='index.php?accion=edita&id=<?php echo htmlspecialchars($id); ?>' method='post' border='0'>
-    <table>
-        <tr>
-            <td>NIF:</td>
-            <td><input type='text' name='nif' value="<?php echo htmlspecialchars($nif, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>Nombre:</td>
-            <td><input type='text' name='nombre' value="<?php echo htmlspecialchars($nombre, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>1er Apellido</td>
-            <td><input type="text" name='apellido1' value="<?php echo htmlspecialchars($apellido1, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>2º Apellido</td>
-            <td><input type='text' name='apellido2' value="<?php echo htmlspecialchars($apellido2, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>email</td>
-            <td><input type="text" name='email' value="<?php echo htmlspecialchars($email, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>Telefono</td>
-            <td><input type='text' name='telefono' value="<?php echo htmlspecialchars($telefono, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>Usuario</td>
-            <td><input type="text" name='usuario' value="<?php echo htmlspecialchars($usuario, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type='text' name='password' value="<?php echo htmlspecialchars($password, ENT_QUOTES); ?>" /></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>
-                <input type = "button"
-           value = "Guarda"
-           onclick = "formhash(this.form, this.form.password);" />
-                <a href='index.php?accion=lista'>Volver a Inicio</a>
-            </td>
-        </tr>
-    </table>
-</form>
-
-
-

@@ -34,7 +34,7 @@
                 echo "<td>$Curso</td>";
                 echo "<td>$Asignatura</td>";
                 echo "<td>";
-// Este enlace es para modificar el registro
+// Este enlace es para ir a prehacer
                 echo "<a href='index.php?accion=prehacer&id={$ExamenId}'>Realizar examen</a>";
                 echo " / ";
 // Este enlace es para borrar el registro y también se explicará más tarde
