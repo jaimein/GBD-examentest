@@ -10,6 +10,8 @@ if (!login_check($conexion)) { //no estas autorizado
 // Éxito
             $accion = "lista"; //acción por defecto
             echo $_SESSION['id'];
+            $userId=$_SESSION['id'];
+            echo $userId;
             echo "<div class=\"logout\"> <a href=\"index.php?accion=logout\"> logout {$_SESSION['usuario']} </a></div>";
         } else {
 // Login error: no coinciden usuario y password
