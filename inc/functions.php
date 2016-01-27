@@ -154,3 +154,16 @@ function logout() {
 // Destroy session 
     session_destroy();
 }
+
+
+function sumaintentos($conexion) {
+    $sql= "SELECT intentos "
+            . "FROM intentos "
+            . "WHERE users_id = 1 "
+            . "and examen_id = 1";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param('ii', $ExamenId, $_SESSION['id']);
+    $stmt->execute();
+    $stmt->bind_result($intentos);
+    $stmt->fetch();
+}

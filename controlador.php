@@ -9,8 +9,8 @@ if (!login_check($conexion)) { //no estas autorizado
         if (login($usuario, $password, $conexion) == true) {
 // Éxito
             $accion = "lista"; //acción por defecto
-            echo $_SESSION['id'];
-            $userId=$_SESSION['id'];
+            //echo $_SESSION['id'];
+            //$userId=$_SESSION['id'];
             echo $userId;
             echo "<div class=\"logout\"> <a href=\"index.php?accion=logout\"> logout {$_SESSION['usuario']} </a></div>";
         } else {

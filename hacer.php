@@ -1,5 +1,19 @@
 
 <?php
+
+
+sumaintentos($conexion);
+
+
+
+
+
+
+
+
+
+
+#################################################################################################################
 // coger el parámetro que nos permitirá identificar el registro
 // isset() es una función PHP usado para verificar si una variable tiene valor o no
 $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrado.');
@@ -24,21 +38,18 @@ if ($_POST) {
     }
 }
 //leer el registro de la tabla
-$query = "SELECT nif, nombre, apellido1, apellido2, email, "
-        . "telefono, usuario, password "
-        . "FROM clientes  "
-        . "WHERE id = ? ";
-if ($stmt = $conexion->prepare($query)) {
-
+    $query = "SELECT id, enunciado "
+        . "FROM preguntas "
+        . "WHERE examen_id = ?";
+    $stmt = $conexion->prepare($query);
     // inicializamos el parámetro
     $stmt->bind_param('i', $id);
-
     // ejecutamos la consulta
     $stmt->execute();
-    $stmt->bind_result($nif, $nombre, $apellido1, $apellido2, $email, $telefono, $usuario, $password);
+    $stmt->bind_result($preguntaId, $enunciado);
     // recuperamos la variable
     $stmt->fetch();
-}
+
 ?>
 <form action='index.php?accion=edita&id=<?php echo htmlspecialchars($id); ?>' method='post' border='0'>
     <table>
@@ -85,6 +96,5 @@ if ($stmt = $conexion->prepare($query)) {
         </tr>
     </table>
 </form>
-
 
 
