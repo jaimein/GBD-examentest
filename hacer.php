@@ -1,8 +1,12 @@
 
 <?php
 
+// coger el parámetro que nos permitirá identificar el registro
+// isset() es una función PHP usado para verificar si una variable tiene valor o no
+$ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrado.');
 
-sumaintentos($conexion);
+
+sumaintentos($conexion, $intento, $ExamenId);
 
 
 

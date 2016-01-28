@@ -6,6 +6,19 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
 
 //include 'conexion.php';
 
+if($_POST){
+    switch ($_POST['accion'])
+    {
+      case 'atras':
+          header("Location:index.php?action=lista");
+        break;
+
+      case 'hacer':
+        header("Location:index.php?action=hacer&id={$ExamenId}");
+        break;
+    }
+}
+
     $query = "SELECT e.intentosMax, i.intentos, i.users_id "
             . "FROM examen e "
             . "LEFT JOIN intentos i ON i.examen_id = e.id "
@@ -14,9 +27,7 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
     $stmt->bind_param('ii', $ExamenId, $_SESSION['id']);
     $stmt->execute();
     $stmt->bind_result($intentosMax, $intentos, $iduser);
-    
-    
-        // recuperamos la variable
+    // recuperamos la variable
     $stmt->fetch();
     //echo $intentosMax;
     //echo $intentos;
@@ -25,14 +36,18 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
     } else {
         $intento="0";
     }
+    echo "<form action='index.php?accion=prehacer&id={$ExamenId}' method=post>";
         $comp = ($intento >= $intentosMax);    
     if($comp == TRUE){
         echo "Ha realizado el numero maximo de intentos";
-        echo "<a href='index.php?accion=lista'>Atras</a>";
+        echo "<input type=submit name=accion value=atras>";
+        echo "</form>";
     } else {
         echo "Ha usado ".$intento." de ".$intentosMax." intentos maximos.</br>";
-        echo "<a href='index.php?accion=lista'>Atras</a>";
-        echo "<a href='index.php?accion=hacer&id={$ExamenId}'>Realizar examen</a>";
+        echo "<input type=submit name=accion value=hacer>";
+        echo "<input type=submit name=accion value=atras>";
+        echo "</form>";
+
     }
     
 

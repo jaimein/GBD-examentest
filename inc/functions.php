@@ -157,12 +157,10 @@ function logout() {
 
 
 function sumaintentos($conexion) {
-    $sql= "SELECT intentos "
-            . "FROM intentos "
-            . "WHERE users_id = 1 "
-            . "and examen_id = 1";
+    $sql= "INSERT INTO intentos (id, intentos, users_id, examen_id)"
+            . " VALUES (NULL , ?, ?, ?);";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param('ii', $ExamenId, $_SESSION['id']);
+    $stmt->bind_param('iii', $intentos, $_SESSION['id'], $examen_id);
     $stmt->execute();
     $stmt->bind_result($intentos);
     $stmt->fetch();
