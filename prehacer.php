@@ -6,7 +6,8 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
 
 //include 'conexion.php';
 
-if($_POST){
+    if($_POST){
+        $intento=  isset($_GET['intento']) ? $_GET['intento'] : die('ERROR: Intento no encontrado');
     switch ($_POST['accion'])
     {
       case 'atras':
@@ -14,7 +15,8 @@ if($_POST){
         break;
 
       case 'hacer':
-        header("Location:index.php?action=hacer&id={$ExamenId}");
+          sumaintentos($conexion, $ExamenId, $intento);
+          header("Location:index.php?accion=hacer&id={$ExamenId}");
         break;
     }
 }
@@ -36,7 +38,9 @@ if($_POST){
     } else {
         $intento="0";
     }
-    echo "<form action='index.php?accion=prehacer&id={$ExamenId}' method=post>";
+    
+
+    echo "<form action='index.php?accion=prehacer&id={$ExamenId}&intento={$intento}' method=post>";
         $comp = ($intento >= $intentosMax);    
     if($comp == TRUE){
         echo "Ha realizado el numero maximo de intentos";
@@ -44,6 +48,7 @@ if($_POST){
         echo "</form>";
     } else {
         echo "Ha usado ".$intento." de ".$intentosMax." intentos maximos.</br>";
+        echo "<input type=hidden name=intento value=.$intento.>";
         echo "<input type=submit name=accion value=hacer>";
         echo "<input type=submit name=accion value=atras>";
         echo "</form>";

@@ -156,12 +156,53 @@ function logout() {
 }
 
 
-function sumaintentos($conexion) {
+function sumaintentos($conexion, $examen_id, $intentos) {
+    ++$intentos;
     $sql= "INSERT INTO intentos (id, intentos, users_id, examen_id)"
             . " VALUES (NULL , ?, ?, ?);";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param('iii', $intentos, $_SESSION['id'], $examen_id);
     $stmt->execute();
-    $stmt->bind_result($intentos);
+    //$stmt->bind_result();
     $stmt->fetch();
+}
+
+function obtenerpregunta($conexion, $ExamenId) {
+	$sql = "SELECT id, enunciado "
+	       . "FROM preguntas "
+                . "WHERE examen_id = ? ";
+	$stmt = $conexion->prepare($sql);
+	$stmt->execute();
+        $stmt->bind_param('i',$ExamenId);
+        $stmt->store_result();
+        $stmt->bind_result($idPregunta,$enunciado);
+            while($stmt->fetch()){
+		print("<strong><li>".htmlspecialchars($question, ENT_QUOTES)."</li></strong>");
+		print("<ul>");
+		obteneropciones($idPregunta, $conexion);
+		print("</ul>");
+            }
+		$stmt->close();
+		
+		
+}
+
+function obteneropciones($idPregunta, $conexion){
+	$query = "SELECT id, enunciado "
+		   . "FROM opciones "
+		   . "WHERE preguntas_id= ? ";
+	$stmt = $conexion->prepare($query);
+	$stmt->bind_param("i",$idPregunta);
+	if(!$stmt->execute()){
+		die('Error de ejecución de la consulta: '.$conexion->error);
+	}
+	$stmt->bind_result($idopcion,$enunciado);
+	while($stmt->fetch()){
+        	print("<li>"
+                    . "<input type=\"radio\" name=\"" . $idQuest . "\" value=\""
+                    . $idAnswer . "\" id=\"" . $idQuest . "_" . $idAnswer . "\" /> "
+                    . "<label for=\"" . $idQuest . "_" . $idAnswer . "\">"
+                    . htmlspecialchars($answer, ENT_QUOTES) . "</label></li>");
+		}
+		$stmt->close();
 }
