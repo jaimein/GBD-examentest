@@ -11,7 +11,7 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
     switch ($_POST['accion'])
     {
       case 'atras':
-          header("Location:index.php?action=lista");
+          header("Location:index.php?accion=lista");
         break;
 
       case 'hacer':
@@ -21,16 +21,24 @@ $ExamenId = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Registro no encontrad
     }
 }
 
-    $query = "SELECT e.intentosMax, i.intentos, i.users_id "
+    $query = "SELECT e.intentosMax, max(i.intentos), i.users_id "
             . "FROM examen e "
             . "LEFT JOIN intentos i ON i.examen_id = e.id "
             . "WHERE e.id =? AND i.users_id =?";
+    $stmt = new mysqli_stmt();
     $stmt = $conexion->prepare($query);
     $stmt->bind_param('ii', $ExamenId, $_SESSION['id']);
     $stmt->execute();
+    
     $stmt->bind_result($intentosMax, $intentos, $iduser);
     // recuperamos la variable
     $stmt->fetch();
+    if (empty($intentos)){
+        $intentos=0;
+        //$intentosMax=3;
+        //echo "consulta vacia";
+    }
+    //echo $query;
     //echo $intentosMax;
     //echo $intentos;
     if(isset($intentos)){
