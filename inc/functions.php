@@ -170,16 +170,28 @@ function sumaintentos($conexion, $examen_id, $intentos) {
 function obtenerpregunta($conexion, $ExamenId) {
 	$sql = "SELECT id, enunciado "
 	       . "FROM preguntas "
-                . "WHERE examen_id = ? ";
+               . "WHERE examen_id = ? ";
+        //echo $sql;
+        //$idPregunta= "";
+        //$enunciado= "";
 	$stmt = $conexion->prepare($sql);
-	$stmt->execute();
         $stmt->bind_param('i',$ExamenId);
-        $stmt->store_result();
-        $stmt->bind_result($idPregunta,$enunciado);
-            while($stmt->fetch()){
-		print("<strong><li>".htmlspecialchars($question, ENT_QUOTES)."</li></strong>");
+	$stmt->execute();
+        
+        // $stmt->store_result();
+        $stmt->bind_result($idPregunta, $enunciado);        
+        //echo $ExamenId;
+        // $rows = $stmt->num_rows();
+        
+        
+        //echo "hola";
+            while($stmt->fetch()) {
+                echo "adios";
+                //echo $enunciado;
+                 echo $idPregunta;
+		print("<strong><li>".htmlspecialchars($enunciado, ENT_QUOTES)."</li></strong>");
 		print("<ul>");
-		obteneropciones($idPregunta, $conexion);
+		obteneropciones($conexion, $idPregunta );
 		print("</ul>");
             }
 		$stmt->close();
@@ -187,22 +199,41 @@ function obtenerpregunta($conexion, $ExamenId) {
 		
 }
 
-function obteneropciones($idPregunta, $conexion){
-	$query = "SELECT id, enunciado "
+function obteneropciones($conexion, $idPregunta){
+	$sql = "SELECT id, enunciado "
 		   . "FROM opciones "
-		   . "WHERE preguntas_id= ? ";
-	$stmt = $conexion->prepare($query);
-	$stmt->bind_param("i",$idPregunta);
-	if(!$stmt->execute()){
-		die('Error de ejecución de la consulta: '.$conexion->error);
-	}
-	$stmt->bind_result($idopcion,$enunciado);
+		   . "WHERE preguntas_id = ? ";
+        echo $sql;
+        $idOpcion = "hola";
+        $enunciado = "adios";
+        echo $idPregunta;
+       
+        $stmt = $conexion->prepare($sql);
+        echo "stmt: (".$stmt.")";
+        echo $conexion->error;
+        if (!$stmt) echo "fallo el prepare";
+        echo "<br> opcion -> ". $idOpcion;
+        
+        $error = $stmt->bind_param('i',$idPregunta);
+        
+        if(!$error){
+            echo " gaupo ";
+        }
+        else echo "feo";
+        
+        echo "enunciado: ".$enunciado;
+	$stmt->execute();
+        // $stmt->store_result();
+                
+        $stmt->bind_result($idOpcion, $enunciado); 
+	//echo
+        // $query;
 	while($stmt->fetch()){
         	print("<li>"
-                    . "<input type=\"radio\" name=\"" . $idQuest . "\" value=\""
-                    . $idAnswer . "\" id=\"" . $idQuest . "_" . $idAnswer . "\" /> "
-                    . "<label for=\"" . $idQuest . "_" . $idAnswer . "\">"
-                    . htmlspecialchars($answer, ENT_QUOTES) . "</label></li>");
+                    . "<input type=\"radio\" name=\"" . $idPregunta . "\" value=\""
+                    . $idopcion . "\" id=\"" . $idPregunta . "_" . $idopcion . "\" /> "
+                    . "<label for=\"" . $idPregunta . "_" . $idopcion . "\">"
+                    . htmlspecialchars($enunciado, ENT_QUOTES) . "</label></li>");
 		}
 		$stmt->close();
 }
