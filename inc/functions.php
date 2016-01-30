@@ -168,18 +168,25 @@ function sumaintentos($conexion, $examen_id, $intentos) {
 }
 
 function obtenerpregunta($conexion, $ExamenId) {
+    //$con=$conexion;
 	$sql = "SELECT id, enunciado "
 	       . "FROM preguntas "
                . "WHERE examen_id = ? ";
         //echo $sql;
         //$idPregunta= "";
         //$enunciado= "";
-	$stmt = $conexion->prepare($sql);
-        $stmt->bind_param('i',$ExamenId);
-	$stmt->execute();
+        if($stmt = $conexion->prepare($sql)){
+            $stmt->bind_param('i',$ExamenId);
+            if(!$stmt->execute()){
+                die('Error de ejecución de la consulta.'.$conexion->error);
+            }
+            $stmt->store_result();
+            $stmt->bind_result($idPregunta, $enunciado);
+        }
+        
         
         // $stmt->store_result();
-        $stmt->bind_result($idPregunta, $enunciado);        
+                
         //echo $ExamenId;
         // $rows = $stmt->num_rows();
         
