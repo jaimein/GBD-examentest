@@ -174,6 +174,7 @@ function obtenerpregunta($conexion, $ExamenId) {
                . "WHERE examen_id = ? ";
         //echo $sql;
         //$idPregunta= "";
+        //
         //$enunciado= "";
         if($stmt = $conexion->prepare($sql)){
             $stmt->bind_param('i',$ExamenId);
